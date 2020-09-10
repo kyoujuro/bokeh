@@ -1,5 +1,5 @@
 import {Annotation, AnnotationView} from "./annotation"
-import {ContinuousTicker} from "../tickers/continuous_ticker"
+import {Ticker} from "../tickers/ticker"
 import {TickFormatter} from "../formatters/tick_formatter"
 import {BasicTicker} from "../tickers/basic_ticker"
 import {BasicTickFormatter} from "../formatters/basic_tick_formatter"
@@ -450,11 +450,12 @@ export class ColorBarView extends AnnotationView {
     Note: the type of color_mapper has to match the type of scale (i.e.
     a LinearColorMapper will require a corresponding LinearScale instance).
     */
+    const {color_mapper} = this.model
 
     const ranges = {
       source_range: new Range1d({
-        start: this.model.color_mapper.metrics.min,
-        end: this.model.color_mapper.metrics.max,
+        start: color_mapper.metrics.min,
+        end: color_mapper.metrics.max,
       }),
       target_range: new Range1d({
         start: 0,
@@ -462,7 +463,6 @@ export class ColorBarView extends AnnotationView {
       }),
     }
 
-    const {color_mapper} = this.model
     if (color_mapper instanceof LinearColorMapper)
       return new LinearScale(ranges)
     else if (color_mapper instanceof LogColorMapper)
@@ -508,7 +508,7 @@ export class ColorBarView extends AnnotationView {
     const [i, j] = this._normals()
     const [start, end] = [this.model.color_mapper.metrics.min, this.model.color_mapper.metrics.max]
 
-    const ticks = this.model.ticker.get_ticks_no_defaults(start, end, NaN, this.model.ticker.desired_num_ticks)
+    const ticks = this.model.ticker.get_ticks(start, end, scale.source_range, NaN)
 
     const majors = ticks.major
     const minors = ticks.minor
@@ -567,7 +567,7 @@ export namespace ColorBar {
     width: p.Property<number | "auto">
     height: p.Property<number | "auto">
     scale_alpha: p.Property<number>
-    ticker: p.Property<ContinuousTicker>
+    ticker: p.Property<Ticker>
     formatter: p.Property<TickFormatter>
     major_label_overrides: p.Property<{[key: string]: string}>
     color_mapper: p.Property<ContinuousColorMapper>
@@ -631,7 +631,7 @@ export class ColorBar extends Annotation {
       width:                 [ Or(Number, Auto), "auto" ],
       height:                [ Or(Number, Auto), "auto" ],
       scale_alpha:           [ Alpha, 1.0 ],
-      ticker:                [ Ref(ContinuousTicker), () => new BasicTicker() ],
+      ticker:                [ Ref(Ticker), () => new BasicTicker() ],
       formatter:             [ Ref(TickFormatter), () => new BasicTickFormatter() ],
       major_label_overrides: [ Dict(String), {} ],
       color_mapper:          [ Ref(ContinuousColorMapper) ],

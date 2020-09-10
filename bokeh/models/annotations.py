@@ -77,7 +77,7 @@ from .formatters import BasicTickFormatter, TickFormatter
 from .mappers import ContinuousColorMapper
 from .renderers import GlyphRenderer, Renderer
 from .sources import ColumnDataSource, DataSource
-from .tickers import BasicTicker, ContinuousTicker
+from .tickers import BasicTicker, Ticker
 
 #-----------------------------------------------------------------------------
 # Globals and constants
@@ -385,7 +385,7 @@ class ColorBar(Annotation):
     The distance (in pixels) to separate the title from the color bar.
     """)
 
-    ticker = Instance(ContinuousTicker, default=lambda: BasicTicker(), help="""
+    ticker = Instance(Ticker, default=lambda: BasicTicker(), help="""
     A Ticker to use for computing locations of axis components.
     """)
 
