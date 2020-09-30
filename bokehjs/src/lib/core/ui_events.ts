@@ -504,7 +504,7 @@ export class UIEventBus implements EventListenerObject {
     signal.emit({id, e})
   }
 
-  protected _trigger_bokeh_event(plot_view: PlotView, e: UIEvent): void {
+  /*protected*/ _trigger_bokeh_event(plot_view: PlotView, e: UIEvent): void {
     const ev = (() => {
       const {sx, sy} = e
       const x = plot_view.frame.x_scale.invert(sx)
@@ -554,7 +554,7 @@ export class UIEventBus implements EventListenerObject {
       plot_view.model.trigger_event(ev)
   }
 
-  private _get_sxy(event: TouchEvent | MouseEvent | PointerEvent): ScreenCoord {
+  /*private*/ _get_sxy(event: TouchEvent | MouseEvent | PointerEvent): ScreenCoord {
     const {pageX, pageY} = is_touch(event) ? (event.touches.length != 0 ? event.touches : event.changedTouches)[0] : event
     const {left, top} = offset(this.hit_area)
     return {
@@ -563,7 +563,7 @@ export class UIEventBus implements EventListenerObject {
     }
   }
 
-  private _pan_event(e: HammerEvent): PanEvent {
+  /*private*/ _pan_event(e: HammerEvent): PanEvent {
     return {
       type: e.type as PanEvent["type"],
       ...this._get_sxy(e.srcEvent),
@@ -574,7 +574,7 @@ export class UIEventBus implements EventListenerObject {
     }
   }
 
-  private _pinch_event(e: HammerEvent): PinchEvent {
+  /*private*/ _pinch_event(e: HammerEvent): PinchEvent {
     return {
       type: e.type as PinchEvent["type"],
       ...this._get_sxy(e.srcEvent),
@@ -584,7 +584,7 @@ export class UIEventBus implements EventListenerObject {
     }
   }
 
-  private _rotate_event(e: HammerEvent): RotateEvent {
+  /*private*/ _rotate_event(e: HammerEvent): RotateEvent {
     return {
       type: e.type as RotateEvent["type"],
       ...this._get_sxy(e.srcEvent),
@@ -594,7 +594,7 @@ export class UIEventBus implements EventListenerObject {
     }
   }
 
-  private _tap_event(e: HammerEvent): TapEvent {
+  /*private*/ _tap_event(e: HammerEvent): TapEvent {
     return {
       type: e.type as TapEvent["type"],
       ...this._get_sxy(e.srcEvent),
@@ -603,7 +603,7 @@ export class UIEventBus implements EventListenerObject {
     }
   }
 
-  private _move_event(e: MouseEvent): MoveEvent {
+  /*private*/ _move_event(e: MouseEvent): MoveEvent {
     return {
       type: e.type as MoveEvent["type"],
       ...this._get_sxy(e),
@@ -612,7 +612,7 @@ export class UIEventBus implements EventListenerObject {
     }
   }
 
-  private _scroll_event(e: WheelEvent): ScrollEvent {
+  /*private*/ _scroll_event(e: WheelEvent): ScrollEvent {
     return {
       type: e.type as ScrollEvent["type"],
       ...this._get_sxy(e),
@@ -622,86 +622,86 @@ export class UIEventBus implements EventListenerObject {
     }
   }
 
-  private _key_event(e: KeyboardEvent): KeyEvent {
+  /*private*/ _key_event(e: KeyboardEvent): KeyEvent {
     return {
       type: e.type as KeyEvent["type"],
       keyCode: e.keyCode,
     }
   }
 
-  private _pan_start(e: HammerEvent): void {
+  /*private*/ _pan_start(e: HammerEvent): void {
     const ev = this._pan_event(e)
-    // back out delta to get original center point
+    // _back out delta to get original center point
     ev.sx -= e.deltaX
     ev.sy -= e.deltaY
     this._trigger(this.pan_start, ev, e.srcEvent)
   }
 
-  private _pan(e: HammerEvent): void {
+  /*private*/ _pan(e: HammerEvent): void {
     this._trigger(this.pan, this._pan_event(e), e.srcEvent)
   }
 
-  private _pan_end(e: HammerEvent): void {
+  /*private*/ _pan_end(e: HammerEvent): void {
     this._trigger(this.pan_end, this._pan_event(e), e.srcEvent)
   }
 
-  private _pinch_start(e: HammerEvent): void {
+  /*private*/ _pinch_start(e: HammerEvent): void {
     this._trigger(this.pinch_start, this._pinch_event(e), e.srcEvent)
   }
 
-  private _pinch(e: HammerEvent): void {
+  /*private*/ _pinch(e: HammerEvent): void {
     this._trigger(this.pinch, this._pinch_event(e), e.srcEvent)
   }
 
-  private _pinch_end(e: HammerEvent): void {
+  /*private*/ _pinch_end(e: HammerEvent): void {
     this._trigger(this.pinch_end, this._pinch_event(e), e.srcEvent)
   }
 
-  private _rotate_start(e: HammerEvent): void {
+  /*private*/ _rotate_start(e: HammerEvent): void {
     this._trigger(this.rotate_start, this._rotate_event(e), e.srcEvent)
   }
 
-  private _rotate(e: HammerEvent): void {
+  /*private*/ _rotate(e: HammerEvent): void {
     this._trigger(this.rotate, this._rotate_event(e), e.srcEvent)
   }
 
-  private _rotate_end(e: HammerEvent): void {
+  /*private*/ _rotate_end(e: HammerEvent): void {
     this._trigger(this.rotate_end, this._rotate_event(e), e.srcEvent)
   }
 
-  private _tap(e: HammerEvent): void {
+  /*private*/ _tap(e: HammerEvent): void {
     this._trigger(this.tap, this._tap_event(e), e.srcEvent)
   }
 
-  private _doubletap(e: HammerEvent): void {
+  /*private*/ _doubletap(e: HammerEvent): void {
     this._trigger(this.doubletap, this._tap_event(e), e.srcEvent)
   }
 
-  private _press(e: HammerEvent): void {
+  /*private*/ _press(e: HammerEvent): void {
     this._trigger(this.press, this._tap_event(e), e.srcEvent)
   }
 
-  private _pressup(e: HammerEvent): void {
+  /*private*/ _pressup(e: HammerEvent): void {
     this._trigger(this.pressup, this._tap_event(e), e.srcEvent)
   }
 
-  private _mouse_enter(e: MouseEvent): void {
+  /*private*/ _mouse_enter(e: MouseEvent): void {
     this._trigger(this.move_enter, this._move_event(e), e)
   }
 
-  private _mouse_move(e: MouseEvent): void {
+  /*private*/ _mouse_move(e: MouseEvent): void {
     this._trigger(this.move, this._move_event(e), e)
   }
 
-  private _mouse_exit(e: MouseEvent): void {
+  /*private*/ _mouse_exit(e: MouseEvent): void {
     this._trigger(this.move_exit, this._move_event(e), e)
   }
 
-  private _mouse_wheel(e: WheelEvent): void {
+  /*private*/ _mouse_wheel(e: WheelEvent): void {
     this._trigger(this.scroll, this._scroll_event(e), e)
   }
 
-  private _context_menu(e: MouseEvent): void {
+  /*private*/ _context_menu(e: MouseEvent): void {
     if (!this.menu.is_open && this.menu.can_open) {
       e.preventDefault()
     }
@@ -710,12 +710,12 @@ export class UIEventBus implements EventListenerObject {
     this.menu.toggle({left: sx, top: sy})
   }
 
-  private _key_down(e: KeyboardEvent): void {
+  /*private*/ _key_down(e: KeyboardEvent): void {
     // NOTE: keyup event triggered unconditionally
     this.trigger(this.keydown, this._key_event(e))
   }
 
-  private _key_up(e: KeyboardEvent): void {
+  /*private*/ _key_up(e: KeyboardEvent): void {
     // NOTE: keyup event triggered unconditionally
     this.trigger(this.keyup, this._key_event(e))
   }
