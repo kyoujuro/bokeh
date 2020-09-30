@@ -75,8 +75,8 @@ describe("ui_event_bus module", () => {
 
         ui_event_bus._trigger(ui_event_bus.move, e, new Event("mousemove"))
 
-        expect(spy_trigger.calledOnce).to.be.true
-        expect(spy_trigger.args[0]).to.be.equal([ui_event_bus.move, e, inspector.id])
+        expect(spy_trigger.calledTwice).to.be.true
+        expect(spy_trigger.args[1]).to.be.equal([ui_event_bus.move, e, inspector.id])
       })
 
       it("should not trigger move event for inactive inspectors", async () => {
@@ -92,7 +92,7 @@ describe("ui_event_bus module", () => {
       it("should use default cursor no active inspector", () => {
         ui_event_bus._trigger(ui_event_bus.move, e, new Event("mousemove"))
 
-        expect(spy_cursor.calledOnce).to.be.true
+        expect(spy_cursor.calledTwice).to.be.true
         expect(spy_cursor.calledWith("default")).to.be.true
       })
 
@@ -104,7 +104,7 @@ describe("ui_event_bus module", () => {
         const ss = sinon.stub(ui_event_bus as any, "_hit_test_frame").returns(false) // XXX: protected
 
         ui_event_bus._trigger(ui_event_bus.move, e, new Event("mousemove"))
-        expect(spy_cursor.calledOnce).to.be.true
+        expect(spy_cursor.calledTwice).to.be.true
         expect(spy_cursor.calledWith("default")).to.be.true
 
         ss.restore()
@@ -118,7 +118,7 @@ describe("ui_event_bus module", () => {
         const ss = sinon.stub(ui_event_bus as any, "_hit_test_frame").returns(true) // XXX: protected
 
         ui_event_bus._trigger(ui_event_bus.move, e, new Event("mousemove"))
-        expect(spy_cursor.calledOnce).to.be.true
+        expect(spy_cursor.calledTwice).to.be.true
         expect(spy_cursor.calledWith("crosshair")).to.be.true
 
         ss.restore()
@@ -131,7 +131,7 @@ describe("ui_event_bus module", () => {
         const ss = sinon.stub(ui_event_bus as any, "_hit_test_renderers").returns(legend_view) // XXX: protected
 
         ui_event_bus._trigger(ui_event_bus.move, e, new Event("mousemove"))
-        expect(spy_cursor.calledOnce).to.be.true
+        expect(spy_cursor.calledTwice).to.be.true
         expect(spy_cursor.calledWith("pointer")).to.be.true
 
         ss.restore()
@@ -148,10 +148,10 @@ describe("ui_event_bus module", () => {
         const ss = sinon.stub(ui_event_bus as any, "_hit_test_renderers").returns(legend_view) // XXX: protected
 
         ui_event_bus._trigger(ui_event_bus.move, e, new Event("mousemove"))
-        expect(spy_trigger.calledOnce).to.be.true
-        expect(spy_trigger.args[0]).to.be.equal([ui_event_bus.move_exit, e, inspector.id])
+        expect(spy_trigger.calledTwice).to.be.true
+        expect(spy_trigger.args[1]).to.be.equal([ui_event_bus.move_exit, e, inspector.id])
         // should also use view renderer cursor and not inspector cursor
-        expect(spy_cursor.calledOnce).to.be.true
+        expect(spy_cursor.calledTwice).to.be.true
         expect(spy_cursor.calledWith("pointer")).to.be.true
 
         ss.restore()
