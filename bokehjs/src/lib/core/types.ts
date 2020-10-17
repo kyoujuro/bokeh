@@ -13,7 +13,6 @@ export const ColorArray = Uint32Array
 import {equals, Equals, Comparator} from "core/util/eq"
 
 export class RaggedArray implements Equals {
-
   static [Symbol.toStringTag] = "RaggedArray"
 
   constructor(readonly offsets: Uint32Array, readonly array: NumberArray) {}
